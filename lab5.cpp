@@ -12,150 +12,150 @@ using namespace std;
 class Matrix
 {
 public:
-    friend void InputMatrix(Matrix vector[]);
-    friend void OutputMatrix(Matrix vector[]);
+    friend void inputMatrix(Matrix arrayOfRows[]);
+    friend void outputMatrix(Matrix arrayOfRows[]);
     int elementsOfLine[n];
 };
 
-void Azart(Matrix vector[]);
-void MatrixDescendSort(Matrix vector[]);
+void calculations(Matrix arrayOfRows[]);
+void repassingTheMatrix(Matrix arrayOfRows[]);
 
-void merge (int array1[], int len1, int array2[], int len2, int array[]);
-void mergeSort(int array[], int len);
+void merge (int leftPartArray[], int lengthLeftSideArray, int array2[], int lengthRightSideArray, int array[]);
+void mergeSort(int array[], int lengthArray);
 
 int main()
 {
     Matrix array[n];
-    InputMatrix(array);
+    inputMatrix(array);
     cout<<"Old matrix"<<endl;
-    OutputMatrix(array);
+    outputMatrix(array);
     cout << endl;
-    MatrixDescendSort(array);
+    repassingTheMatrix(array);
     cout<<"New matrix"<<endl;
-    OutputMatrix(array);
+    outputMatrix(array);
     cout << endl;
-    Azart(array);
+    calculations(array);
 }
 
-void merge (int array1[], int len1, int array2[], int len2, int array[])
+void merge (int leftPartArray[], int lengthLeftSideArray, int rightPartArray[], int lengthRightSideArray, int array[])
 {
-    int i = 0, j = 0, k = 0;
+    int row = 0, column = 0, k = 0;
 
-    while(i < len1 || j < len2)
+    while(row < lengthLeftSideArray || column < lengthRightSideArray)
     {
-        if (i < len1 && j < len2)
+        if (row < lengthLeftSideArray && column < lengthRightSideArray)
         {
-            if (array1[i] > array2[j])
+            if (leftPartArray[row] > rightPartArray[column])
             {
-                array[k] = array1[i];
-                i++;
+                array[k] = leftPartArray[row];
+                row++;
                 k++;
             }
             else
             {
-                array[k] = array2[j];
-                j++;
+                array[k] = rightPartArray[column];
+                column++;
                 k++;
             }
         }
-        else if (i >= len1)
+        else if (row >= lengthLeftSideArray)
         {
-            array[k] = array2[j];
-            j++;
+            array[k] = rightPartArray[column];
+            column++;
             k++;
         }
-        else if (j >= len2)
+        else if (column >= lengthRightSideArray)
         {
-            array[k] = array1[i];
-            i++;
+            array[k] = leftPartArray[row];
+            row++;
             k++;
         }
     }
 }
 
-void mergeSort(int array[], int len)
+void mergeSort(int array[], int lengthArray)
 {
-    int len1, len2;
-    if (len%2 == 0)
+    int lengthLeftSideArray, lengthRightSideArray;
+    if (lengthArray%2 == 0)
     {
-        len1 = len/2;
-        len2 = len/2;
+        lengthLeftSideArray = lengthArray/2;
+        lengthRightSideArray = lengthArray/2;
     }
     else
     {
-        len1 = len/2;
-        len2 = len/2 + 1;
+        lengthLeftSideArray = lengthArray/2;
+        lengthRightSideArray = lengthArray/2 + 1;
     }
 
-    int array1[len1];
-    int array2[len2];
-    for (int i = 0; i < len1; i++)
+    int leftPartArray[lengthLeftSideArray];
+    int rightPartArray[lengthRightSideArray];
+    for (int row = 0; row < lengthLeftSideArray; row++)
     {
-        array1[i] = array[i];
+        leftPartArray[row] = array[row];
     }
-    for (int j = 0; j < len2; j ++)
+    for (int column = 0; column < lengthRightSideArray; column ++)
     {
-        array2[j] = array[len1 + j];
+        rightPartArray[column] = array[lengthLeftSideArray + column];
     }
 
-    if (len == 2)
+    if (lengthArray == 2)
     {
-        merge (array1, len1, array2, len2, array);
+        merge (leftPartArray, lengthLeftSideArray, rightPartArray, lengthRightSideArray, array);
     }
-    else if (len == 3)
+    else if (lengthArray == 3)
     {
-        mergeSort(array2, len2);
-        merge (array1, len1, array2, len2, array);
+        mergeSort(rightPartArray, lengthRightSideArray);
+        merge (leftPartArray, lengthLeftSideArray, rightPartArray, lengthRightSideArray, array);
     }
     else
     {
-        mergeSort(array1, len1);
-        mergeSort(array2, len2);
-        merge (array1, len1, array2, len2, array);
+        mergeSort(leftPartArray, lengthLeftSideArray);
+        mergeSort(rightPartArray, lengthRightSideArray);
+        merge (leftPartArray, lengthLeftSideArray, rightPartArray, lengthRightSideArray, array);
     }
 }
 
-void InputMatrix(Matrix vector[])
+void inputMatrix(Matrix arrayOfRows[])
 {
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++)
+    for(int row = 0; row < n; row++){
+        for(int column = 0; column < n; column++)
         {
-            cin>>vector[i].elementsOfLine[j];
+            cin>>arrayOfRows[row].elementsOfLine[column];
         }
     }
 }
 
-void OutputMatrix(Matrix vector[])
+void outputMatrix(Matrix arrayOfRows[])
 {
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++)
+    for(int row = 0; row < n; row++){
+        for(int column = 0; column < n; column++)
         {
-            cout<<vector[i].elementsOfLine[j]<<"\t";
+            cout<<arrayOfRows[row].elementsOfLine[column]<<"\t";
         }
         cout<<endl<<endl;
     }
 }
 
-void MatrixDescendSort(Matrix vector[])
+void repassingTheMatrix(Matrix arrayOfRows[])
 {
-    for (int i = 0; i < n; i++)
+    for (int row = 0; row < n; row++)
     {
-        mergeSort(vector[i].elementsOfLine, n);
+        mergeSort(arrayOfRows[row].elementsOfLine, n);
     }
 }
 
-    void Azart(Matrix vector[]){
-        int tempResult = 1, i, j;
-        double result=0;
-        for( j = 1 ; j < n; j++){
+    void calculations(Matrix arrayOfRows[]){
+        int multiplyOfElements = 1, row, column;
+        double resultOfAddition=0;
+        for( column = 1 ; column < n; column++){
 
-            for( i = n-j; i < n; i++){
-                tempResult *= vector[i].elementsOfLine[j];
+            for( row = n - column; row < n; row++){
+                multiplyOfElements *= arrayOfRows[row].elementsOfLine[column];
 
             }
-            result +=tempResult;
-            printf("f[%d]= %d\n", j, tempResult);
-            tempResult=1;
+            resultOfAddition +=multiplyOfElements;
+            printf("Result of addition of multiplied elements[%d]= %d\n", column, multiplyOfElements);
+            multiplyOfElements=1;
         }
-        cout << "F[f]="<< result/4;
+        cout << "F[f]="<< resultOfAddition/4;
     }
